@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nsc.dao.AlbumDao" >
+  <resultMap id="BaseResultMap" type="com.nsc.entity.Album" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="IMG" property="img" jdbcType="VARCHAR" />
+    <result column="SCORE" property="score" jdbcType="VARCHAR" />
+    <result column="AUTHOR" property="author" jdbcType="VARCHAR" />
+    <result column="BROADCASTER" property="broadcaster" jdbcType="VARCHAR" />
+    <result column="COUNT" property="count" jdbcType="VARCHAR" />
+    <result column="BRIEF" property="brief" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="OTHER" property="other" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!--展示前台专辑细节数据-->
+  <select id="showFrontAlbumDetailData" resultType="com.nsc.dto.FrontArticleAndAlbumDto">
+    select img 'thumbnail',create_date,title,score,author,broadcaster,count 'set_count',brief from album where id=#{id}
+  </select>
+
+  <!--展示前台数据-->
+  <select id="showFrontAlbumData" resultType="com.nsc.dto.FrontArticleAndAlbumDto">
+    select img 'thumbnail',title,author,type,count 'set_count',create_date from album
+  </select>
+    <!--分页查询-->
+    <select id="queryByPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from album limit #{start},#{row}
+    </select>
+    <!--查询总条数-->
+    <select id="queryCount" resultType="java.lang.Integer">
+        select count(ID) from album
+    </select>
+  <sql id="Base_Column_List" >
+    ID, TITLE, IMG, SCORE, AUTHOR, BROADCASTER, COUNT, BRIEF, CREATE_DATE, STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from album
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from album
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.nsc.entity.Album" >
+    insert into album (ID, TITLE, IMG, 
+      SCORE, AUTHOR, BROADCASTER, 
+      COUNT, BRIEF, CREATE_DATE, 
+      STATUS, OTHER)
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, 
+      #{score,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{broadcaster,jdbcType=VARCHAR}, 
+      #{count,jdbcType=VARCHAR}, #{brief,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, 
+      #{status,jdbcType=VARCHAR}, #{other,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nsc.entity.Album" >
+    insert into album
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="img != null" >
+        IMG,
+      </if>
+      <if test="score != null" >
+        SCORE,
+      </if>
+      <if test="author != null" >
+        AUTHOR,
+      </if>
+      <if test="broadcaster != null" >
+        BROADCASTER,
+      </if>
+      <if test="count != null" >
+        COUNT,
+      </if>
+      <if test="brief != null" >
+        BRIEF,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="other != null" >
+        OTHER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="broadcaster != null" >
+        #{broadcaster,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=VARCHAR},
+      </if>
+      <if test="brief != null" >
+        #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        #{other,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nsc.entity.Album" >
+    update album
+    <set >
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        IMG = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        SCORE = #{score,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        AUTHOR = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="broadcaster != null" >
+        BROADCASTER = #{broadcaster,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        COUNT = #{count,jdbcType=VARCHAR},
+      </if>
+      <if test="brief != null" >
+        BRIEF = #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="other != null" >
+        OTHER = #{other,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nsc.entity.Album" >
+    update album
+    set TITLE = #{title,jdbcType=VARCHAR},
+      IMG = #{img,jdbcType=VARCHAR},
+      SCORE = #{score,jdbcType=VARCHAR},
+      AUTHOR = #{author,jdbcType=VARCHAR},
+      BROADCASTER = #{broadcaster,jdbcType=VARCHAR},
+      COUNT = #{count,jdbcType=VARCHAR},
+      BRIEF = #{brief,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=DATE},
+      STATUS = #{status,jdbcType=VARCHAR},
+      OTHER = #{other,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

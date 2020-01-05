@@ -23,6 +23,10 @@ spring:
       max-request-size: 100MB
   jackson:
     date-format: yyyy-MM-dd
+  redis:
+    host: 192.168.81.153
+    port: 6379
+    database: 0
 mybatis:
   type-aliases-package: com.nsc.entity
   mapper-locations: classpath:mapper/*Mapper.xml

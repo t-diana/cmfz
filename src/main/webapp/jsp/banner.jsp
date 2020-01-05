@@ -19,6 +19,7 @@
             pager: "#tools",
             autowidth: true,//自适应父容器宽度
             viewrecords: true,
+            rowList:[2,4,5],
             multiselect: true,
             height:'300px',
             rowNum: 2,

@@ -2,6 +2,8 @@ package com.nsc.service.impl;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
+import com.nsc.annotation.AddCache;
+import com.nsc.annotation.ClearCache;
 import com.nsc.dao.BannerDao;
 import com.nsc.dto.FrontBannerDto;
 import com.nsc.entity.Banner;
@@ -27,7 +29,7 @@ public class BannerServiceImpl implements BannerService {
     private BannerDao bannerDao;
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    @Override
+    @AddCache
     public Map<String, Object> showByPage(Integer rows, Integer page) {
         Map<String, Object> map = new HashMap<>();
         //计算总记录数
@@ -44,7 +46,7 @@ public class BannerServiceImpl implements BannerService {
         return map;
     }
 
-    @Override
+    @AddCache
     @Transactional(propagation = Propagation.SUPPORTS)
     public Banner showOne(String id) {
         return bannerDao.queryById(id);
@@ -56,7 +58,7 @@ public class BannerServiceImpl implements BannerService {
         return true;
     }
 
-    @Override
+    @ClearCache
     public Boolean updateBanner(Banner banner) {
         if (bannerDao.queryById(banner.getId()) == null)
             return false;
@@ -66,18 +68,18 @@ public class BannerServiceImpl implements BannerService {
         }
     }
 
-    @Override
+    @ClearCache
     public void DeleteBulk(String[] ids) {
         bannerDao.deleteBulk(ids);
     }
 
-    @Override
+    @AddCache
     @Transactional(propagation = Propagation.SUPPORTS)
     public List<Banner> showActive(String status) {
         return bannerDao.showActive(status);
     }
 
-    @Override
+    @ClearCache
     public void ImgUpload(MultipartFile img, String id, HttpSession session) {
         //获取源文件名
         String originalFilename = img.getOriginalFilename();
@@ -101,7 +103,7 @@ public class BannerServiceImpl implements BannerService {
         }
     }
 
-    @Override
+    @AddCache
     @Transactional(propagation = Propagation.SUPPORTS)
     public void easyPoiPort(String fileName,HttpServletResponse response) {
         //给出状态信息
@@ -131,7 +133,7 @@ public class BannerServiceImpl implements BannerService {
      * 进行前台轮播图展示
      * @return
      */
-    @Override
+    @AddCache
     @Transactional(propagation = Propagation.SUPPORTS)
     public List<FrontBannerDto> showFrontBannerData() {
         return bannerDao.queryFrontBanner();
